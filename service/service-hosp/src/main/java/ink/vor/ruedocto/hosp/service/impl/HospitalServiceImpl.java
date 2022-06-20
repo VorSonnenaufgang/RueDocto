@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import ink.vor.ruedocto.cmn.client.DictFeignClient;
 import ink.vor.ruedocto.enums.DictEnum;
 import ink.vor.ruedocto.hosp.repository.HospitalRepository;
+import ink.vor.ruedocto.hosp.service.DepartmentService;
 import ink.vor.ruedocto.hosp.service.HospitalService;
 import ink.vor.ruedocto.model.hosp.Hospital;
 import ink.vor.ruedocto.vo.hosp.HospitalQueryVo;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -122,6 +124,35 @@ public class HospitalServiceImpl implements HospitalService {
         // 单独处理更直观
         result.put("bookingRule", hospital.getBookingRule());
         // 不需要重复返回
+        hospital.setBookingRule(null);
+        return result;
+    }
+
+    @Override
+    public String getHospName(String hoscode) {
+        Hospital hospital = hospitalRepository.getHospitalByHoscode(hoscode);
+        if(null != hospital) {
+            return hospital.getHosname();
+        }
+        return "";
+    }
+
+    @Override
+    public List<Hospital> findByHosname(String hosname) {
+        return hospitalRepository.findHospitalByHosnameLike(hosname);
+    }
+
+    @Autowired
+    private DepartmentService departmentService;
+    @Override
+    public Map<String, Object> item(String hoscode) {
+        Map<String, Object> result = new HashMap<>();
+        //医院详情
+        Hospital hospital = this.setHospitalHosType(this.getByHoscode(hoscode));
+        result.put("hospital", hospital);
+        //预约规则
+        result.put("bookingRule", hospital.getBookingRule());
+        //不需要重复返回
         hospital.setBookingRule(null);
         return result;
     }

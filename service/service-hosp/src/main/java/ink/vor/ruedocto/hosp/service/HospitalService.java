@@ -5,6 +5,7 @@ import ink.vor.ruedocto.vo.hosp.HospitalQueryVo;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,4 +37,21 @@ public interface HospitalService {
      * @return
      */
     Map<String, Object> getHospById(String id);
+
+    /**
+     * 根据医院编号获取医院名称接口
+     * @param hoscode
+     * @return
+     */
+    String getHospName(String hoscode);
+
+    /**
+     * 根据医院名称获取医院列表
+     */
+    List<Hospital> findByHosname(String hosname);
+
+    /**
+     * 医院预约挂号详情
+     */
+    Map<String, Object> item(String hoscode);
 }
