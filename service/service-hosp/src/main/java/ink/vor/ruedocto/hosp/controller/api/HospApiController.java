@@ -3,8 +3,12 @@ package ink.vor.ruedocto.hosp.controller.api;
 import ink.vor.ruedocto.common.result.Result;
 import ink.vor.ruedocto.hosp.service.DepartmentService;
 import ink.vor.ruedocto.hosp.service.HospitalService;
+import ink.vor.ruedocto.hosp.service.HospitalSetService;
+import ink.vor.ruedocto.hosp.service.ScheduleService;
 import ink.vor.ruedocto.model.hosp.Hospital;
 import ink.vor.ruedocto.vo.hosp.HospitalQueryVo;
+import ink.vor.ruedocto.vo.hosp.ScheduleOrderVo;
+import ink.vor.ruedocto.vo.order.SignInfoVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -65,5 +69,27 @@ public class HospApiController {
             @ApiParam(name = "hoscode", value = "医院code", required = true)
             @PathVariable String hoscode) {
         return Result.ok(hospitalService.item(hoscode));
+    }
+
+    @Autowired
+    ScheduleService scheduleService;
+
+    @ApiOperation(value = "根据排班id获取预约下单数据")
+    @GetMapping("inner/getScheduleOrderVo/{scheduleId}")
+    public ScheduleOrderVo getScheduleOrderVo(
+            @ApiParam(name = "scheduleId", value = "排班id", required = true)
+            @PathVariable("scheduleId") String scheduleId) {
+        return scheduleService.getScheduleOrderVo(scheduleId);
+    }
+
+    @Autowired
+    HospitalSetService hospitalSetService;
+
+    @ApiOperation(value = "获取医院签名信息")
+    @GetMapping("inner/getSignInfoVo/{hoscode}")
+    public SignInfoVo getSignInfoVo(
+            @ApiParam(name = "hoscode", value = "医院code", required = true)
+            @PathVariable("hoscode") String hoscode) {
+        return hospitalSetService.getSignInfoVo(hoscode);
     }
 }

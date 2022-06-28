@@ -14,8 +14,12 @@
     <modules>
         <module>service-hosp</module>
         <module>service-cmn</module>
-        <module>service_user</module>
         <module>service-user</module>
+        <module>service-sms</module>
+        <module>service-oos</module>
+        <module>service-order</module>
+        <module>service-task</module>
+        <module>service-statics</module>
     </modules>
 
     <properties>
